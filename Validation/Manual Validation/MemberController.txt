@@ -1,0 +1,59 @@
+package com.packt.webstore.controller;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.DataBinder;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+ 
+import com.packt.webstore.domain.Member;
+import com.packt.webstore.service.MemberService;
+import com.packt.webstore.validator.MemberValidator;
+ 
+
+@Controller
+@RequestMapping({"/members"})
+public class MemberController {
+
+	INIT BINDER IS USED WHEN THERE IS NO 100% MANUAL VALIDATION, SO IF WE USE @VALID(NOT 100% MANUAL VALIDATION) ACTIVATE INTIBINDER
+	/*
+		USE INTI BINDER FOR @VALID WHICH IS NOT 100% MANUAL VALIDATION
+	 
+	   @InitBinder
+	    protected void initBinder(WebDataBinder binder) {	        
+		binder.setValidator(new MemberValidator());
+	    }
+ 
+ 	*/
+
+	//implementing 100% manual validator
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public String processAddNewMemberForm(@ModelAttribute("newMember")  Member memberToBeAdded, BindingResult result) {
+	
+		// Manual Validation - either do it here OR activate in InitBinder (any one)
+		
+		//here i'm using 100% manual validation method
+		MemberValidator memberValidator= new MemberValidator();
+ 		memberValidator.validate(memberToBeAdded, result);
+
+ 		if(result.hasErrors()) {
+			return "addMember";
+		}
+
+			 //  Error caught by ControllerAdvice
+ 		memberService.save(memberToBeAdded);
+
+	   	return "redirect:/members";
+ 
+	}
+ 
+	
+}

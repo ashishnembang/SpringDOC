@@ -1,0 +1,13 @@
+
+
+	<bean id= "messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+   		<property name="basenames" value="messages,errormessages"/> //name of properties files. eg: messages.properties
+	</bean>
+	
+	<bean id= "errorMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+   		<property name="basename" value="errormessages"/> 
+	</bean>
+	
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="errorMessageSource" />
+	</bean>
