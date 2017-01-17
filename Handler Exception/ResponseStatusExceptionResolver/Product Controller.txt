@@ -1,0 +1,29 @@
+@RequestMapping(value = "/throw", method = RequestMethod.GET)
+	public String throwException(@ModelAttribute("newProduct") Product newProduct) {
+	
+
+	String productId = "B1234";
+	Product product = productService.getProductById(productId);
+	if(product == null) {
+		//exception thrown example
+		throw new ProductNotFoundException(productId, null);
+	}
+	return "";
+
+
+
+----
+
+
+@RequestMapping("/{category}")
+	public String getProductsByCategory(Model model, @PathVariable("category") String category) {
+		List<Product> products = productService.getProductsByCategory(category);
+
+		if (products == null || products.isEmpty()) {
+		//exception thrown example2
+			throw new NoProductsFoundUnderCategoryException();
+		}
+
+		model.addAttribute("products", products);
+		return "products";
+	}

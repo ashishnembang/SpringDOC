@@ -1,0 +1,11 @@
+<form:form  modelAttribute="newProduct" class="form-horizontal" enctype="multipart/form-data">
+
+
+AND
+
+class
+
+class product{
+	@JsonIgnore 
+	private MultipartFile  productImage;
+}
