@@ -1,0 +1,2 @@
+netstate -ano | findstr :8080 <enter>
+taskkill.exe /F /PID <pid>
